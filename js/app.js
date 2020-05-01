@@ -3,13 +3,14 @@
 console.log('Hello World');
 
 var allProducts = [];
+var secondaryArray = []; // TRYING TO AVOID REPEATS
 
 var imageOneEl = document.getElementById('product-image-1');
 var imageTwoEl = document.getElementById('product-image-2');
 var imageThreeEl = document.getElementById('product-image-3');
 var divEl = document.getElementById('product-container');
 
-var clickTracker = 25;
+var clickTracker = 20;
 
 function Product(name, src, clicked = 0, viewed = 0) {
   this.name = name;
@@ -31,7 +32,7 @@ function imageGenerator(){
     var pic1 = randomizer(allProducts.length);
     var pic2 = randomizer(allProducts.length);
     var pic3 = randomizer(allProducts.length);
-  } while ((pic1 === pic2) || (pic2 === pic3) || (pic1 === pic3));
+  } while ((pic1 === pic2) || (pic2 === pic3) || (pic1 === pic3) || (secondaryArray.includes(pic1) || (secondaryArray.includes(pic2) || (secondaryArray.includes(pic3)))));
 
   imageOneEl.src = allProducts[pic1].src;
   imageOneEl.title = allProducts[pic1].name;
@@ -47,12 +48,148 @@ function imageGenerator(){
   imageThreeEl.title = allProducts[pic3].name;
   imageThreeEl.alt = allProducts[pic3].alt;
   allProducts[pic3].viewed++;
+
+  secondaryArray[0] = pic1; //TRYING TO FIGURE OUT HOW TO AVOID REPEATS!!!
+  secondaryArray[1] = pic2;
+  secondaryArray[2] = pic3;
+  console.log(secondaryArray);
 }
 
 function stopClicking(){
   divEl.removeEventListener('click', handleClick);
   divEl.textContent = '';
   console.log('done');
+}
+
+function seedChartData(){
+  var clickArray = [];
+  var labelArray = [];
+  var viewedArray = [];
+
+  for(var i = 0; i < allProducts.length; i++){
+    clickArray.push(allProducts[i].clicked);
+    labelArray.push(allProducts[i].name);
+    viewedArray.push(allProducts[i].viewed);
+  }
+  return [clickArray, labelArray, viewedArray];
+}
+
+function renderChart(){
+  var ctx = document.getElementById('myChart');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: seedChartData()[1],
+      datasets: [{
+        label: '# of Clicks',
+        data: seedChartData()[0],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)'
+        ],
+        borderWidth: 1
+      },
+      {
+        label: '# of Views',
+        data: seedChartData()[2],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)'
+        ],
+        borderWidth: 1
+      },
+      ]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
 }
 
 new Product('bag', './img/bag.jpg');
@@ -88,6 +225,8 @@ function handleClick(event) {
 
   if(clickTracker === 0){
     stopClicking();
+
+    renderChart();
   }
   imageGenerator();
 }
